@@ -1,0 +1,17 @@
+MCIT On-Campus 2021 Winter Hackathon
+Project/Team Name:
+​
+**Team Members**
+Adrian Binkley | 1st Year
+Lily Simmons   | 1st Year
+​
+**General Idea** - A general description of what your software will do
+A translation and reference tool for quickly converting mathematical equations and set-builder notation to LaTeX code.
+There will be options to both enter symbols manually as well as click on buttons for non-keyboard symbols. Additionally,
+there will be a brief documentation/reference for common commands in LaTeX, when to use them, and what they do.
+​
+**Anticipated Stack** - What technologies do you anticipate using?
+JavaScript, CSS, HTML, possibly a LaTeX Web API
+​
+**Presentation URL** - At the end of the hackathon, upload your presentation to YouTube/Vimeo (unlisted) and place it here.
+TODO: Enter URL here
