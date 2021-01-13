@@ -75,21 +75,21 @@
 <form id="code-form">
   <label for="code-input">Enter equation below:</label>
   <br>
-  <input type="text" id="code-input">
+  <input type="text" id="code-input"></input>
   <!-- Button triggers new LaTeX code to be added -->
-  <input id="add-LaTeX" type="submit" value="Translate">
+  <input id="add-LaTeX" type="submit" value="Translate"></input>
 </form>
 
-<form action="https://www.overleaf.com/docs" method="post" target="_blank">
-  <input type="text" name="snip_uri" value="https://www.overleaf.com/project/">
-  <br>
-  <input type="submit" value="Open in Overleaf">
-</form>
+
 
 <label for="code-appear-here">LaTeX Code:</label>
   <div id="code-appear-here"></div>
   <br>
-  <button id="delete">Clear</button>
+  <form action="https://www.overleaf.com/project/" method="post" target="_blank">
+    <input type="submit" value="Open Overleaf">
+    <button id="copy">Copy To Clipboard</button>
+    <button id="delete">Clear</button>
+  </form>
 
 <script src="LatexScript.js"></script>
 

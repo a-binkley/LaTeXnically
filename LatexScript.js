@@ -94,6 +94,17 @@ var regularCharsToTranslate = [
 
 var inputTokens = []; // To be parsed by translator, appended to by input text cell event listener
 
+$("#code-input").on("input", function(event) {
+  event.preventDefault();
+  inputTokens.push($("#code-input").val()[$("#code-input").val().length-1]);
+  console.log(inputTokens[inputTokens.length-1]);
+});
+
+$("#add-LaTeX").on("click", function(event) {
+  event.preventDefault();
+  translate(inputTokens); //$("add-LaTeX").text() = ...
+});
+
 function findMatch(char) {
   return (this.displayText == char) ? this.code : char;
 }
@@ -189,6 +200,8 @@ function showInputButtons(collection, numInputs, setNum) {
         }
         // Update the LaTeX Code dump area text
         $("#code-appear-here").text($("#code-appear-here").text() + " " + modCode);
+        // Append command to input text cell
+        $("#code-input").val($("#code-input").val() + " " + modCode + " ");
         console.log($(".codeBtn"+numInputs+setNum+i).attr("data-code"));
       })
     }
@@ -210,6 +223,9 @@ for (let i = 0; i < formulaCommands.length; i++) {
   showInputButtons(formulaCommands, -1, 0);
 }
 
+// TODO: work on reformatting text input cell, event of Copy to Clipboard button
+
 $(document).on("click", "#delete", function() {
-  $("#code-appear-here").empty()
+  $("#code-input").val("");
+  $("#code-appear-here").empty();
 });
