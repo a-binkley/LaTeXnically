@@ -180,7 +180,7 @@ function showInputButtons(collection, numInputs, setNum) {
         var modCode = $(".codeBtn"+numInputs+setNum+i).attr("data-code");
         switch (numInputs) {
           case 1:
-            modCode = modeCode.replace("x", document.querySelector("#single-input").value);
+            modCode = modCode.replace("x", document.querySelector("#single-input").value);
             break;
           case 2:
             modCode = modCode.replace("x", document.querySelector("#double-input-x").value)
@@ -210,6 +210,6 @@ for (let i = 0; i < formulaCommands.length; i++) {
   showInputButtons(formulaCommands, -1, 0);
 }
 
-$(document).on("click", "#delete", function () {
+$(document).on("click", "#delete", function() {
   $("#code-appear-here").empty()
 });
