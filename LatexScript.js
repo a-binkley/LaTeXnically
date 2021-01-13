@@ -71,12 +71,12 @@ const doubleInputCommands = [
 ];
 
 const formulaCommands = [
-  new LatexCommand("Partial Permutations", "Partial Permutations", "n! / (n-r)!", "Set Notation", "\\frac{n!}{(n-r)!}"),
-  new LatexCommand("Partial Combinations", "Partial Combinations", "n! / ((n-r)!*r!)", "Set Notation", "\\frac{n!}{((n-r)!r!)}"),
   new LatexCommand("Anagram Formula", "Anagram Formula", "(n_1 + n_2 + ... + n_k)! / (n_1! * n_2! * ... * n_k!)", "Set Notation",
   "\\frac{(n_1 + n_2 + \\dots + n_k)!}{n_1! * n_2! * \\dots * n_k!}"),
   new LatexCommand("Bayes' Rule", "Bayes' Rule", "Pr[A | B] = (Pr[B | A] * Pr[A])/Pr[B]", "Probability",
-  "Pr[$A \\mid B$] = \\frac{Pr[$B \\mid A$] * Pr[$A$]}{Pr[$B$]}")
+  "Pr[$A \\mid B$] = \\frac{Pr[$B \\mid A$] * Pr[$A$]}{Pr[$B$]}"),
+  new LatexCommand("Partial Combinations", "Partial Combinations", "n! / ((n-r)!*r!)", "Set Notation", "\\frac{n!}{((n-r)!r!)}"),
+  new LatexCommand("Partial Permutations", "Partial Permutations", "n! / (n-r)!", "Set Notation", "\\frac{n!}{(n-r)!}")
 ]
 
 const zeroInputCommands = [generalCommands, logicalCommands, setNotationCommands, probabilityCommands, graphTheoryCommands];
@@ -149,7 +149,7 @@ function showInputButtons(collection, numInputs, setNum) {
     var button = $("<button>");
     button.text(codeType.symbol);
     button.addClass("codeBtn"+numInputs+setNum+i);
-    button.attr("title", codeType.title);
+    if (numInputs != -1) button.attr("title", codeType.title);
     button.attr("data-code", codeType.code);
     button.attr("style", "width: 40px; height: 28px");
     // Style and append the button to the corresponding holder
