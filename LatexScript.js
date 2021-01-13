@@ -71,6 +71,7 @@ const doubleInputCommands = [
 ];
 
 const zeroInputCommands = [generalCommands, logicalCommands, setNotationCommands, probabilityCommands, graphTheoryCommands];
+const allCommands = [zeroInputCommands, singleInputCommands, doubleInputCommands];
 
 // Another list of characters to check against, but these don't need to be displayed
 // Check against this list BEFORE commandList (so " - " gets captured as subtraction before "-" would be caught as a graph edge)
@@ -116,99 +117,77 @@ function translate(tokens) {
   return latexCode;
 }
 
-//Function 1) Show Buttons
-function showZeroInputButtons(num, collection) {
-  $("#buttonHolder"+num+"r0").empty();
-  $("#buttonHolder"+num+"r1").empty();
+function showInputButtons(collection, numInputs, setNum) {
+  switch (numInputs) {
+    case 0:
+      $("#buttonHolder"+setNum+"r0").empty();
+      $("#buttonHolder"+setNum+"r1").empty();
+      console.log("Emptied buttonHolder", setNum, "r0&r1");
+      break;
+    case 1:
+      $("#buttonHolder5").empty();
+      break;
+    case 2:
+      $("#buttonHolder6r0").empty();
+      $("#buttonHolder6r1").empty();
+      break;
+  }
   for (let i = 0; i < collection.length; i++) {
     var codeType = collection[i];
     var button = $("<button>");
     button.text(codeType.symbol);
-    button.addClass("codeBtn"+num+i);
+    button.addClass("codeBtn"+numInputs+setNum+i);
     button.attr("title", codeType.title);
     button.attr("data-code", codeType.code);
-    button.attr("style", "width: 32px; height: 24px");
-    // Select row to add button to
-    if ((i < collection.length / 2) || (collection.length < 4)) {
-       $("#buttonHolder"+num+"r0").append(button);
-    } else $("#buttonHolder"+num+"r1").append(button);
-
-    function diplayButtonCode(n, btn) {
-      $(".codeBtn"+n+btn).on("click", function() {
-        $("#code-appear-here").text($("#code-appear-here").text() + " " + $(".codeBtn"+n+btn).attr("data-code"));
-        console.log($(".codeBtn"+n+btn).attr("data-code"));
+    button.attr("style", "width: 40px; height: 28px");
+    // Style and append the button to the corresponding holder
+    switch (numInputs) {
+      case 0:
+        button.attr("style", "width: 32px; height: 24px");
+        // Select row to add button to
+        if ((i < collection.length / 2) || (collection.length < 4)) {
+           $("#buttonHolder"+setNum+"r0").append(button);
+        } else $("#buttonHolder"+setNum+"r1").append(button);
+        break;
+      case 1:
+        $("#buttonHolder5").append(button);
+        break;
+      case 2:
+        $("#buttonHolder6r0").append(button);
+        break;
+    }
+    // Display the buttons and set event listeners
+    function diplayButtonCode(numInputs, setNum, i) {
+      $(".codeBtn"+numInputs+setNum+i).on("click", function() {
+        var modCode = $(".codeBtn"+numInputs+setNum+i).attr("data-code");
+        switch (numInputs) {
+          case 1:
+            modCode = modeCode.replace("x", document.querySelector("#single-input").value);
+            break;
+          case 2:
+            modCode = modCode.replace("x", document.querySelector("#double-input-x").value)
+              .replace("{y}", "{"+document.querySelector("#double-input-y").value+"}");
+            break;
+        }
+        // Update the LaTeX Code dump area text
+        $("#code-appear-here").text($("#code-appear-here").text() + " " + modCode);
+        console.log($(".codeBtn"+numInputs+setNum+i).attr("data-code"));
       })
     }
-    diplayButtonCode(num, i);
+    diplayButtonCode(numInputs, setNum, i);
   }
 }
 
-// Display and set event listeners for all zero-input buttons
+// Call the above function for each set of commands
 for (let i = 0; i < zeroInputCommands.length; i++) {
-  showZeroInputButtons(i, zeroInputCommands[i]);
+  showInputButtons(zeroInputCommands[i], 0, i);
 }
-
-function showOneInputButtons(collection) {
-  $("#buttonHolder5").empty();
-  for (let i = 0; i < collection.length; i++) {
-    var codeType = collection[i];
-    var button = $("<button>");
-    button.text(codeType.symbol);
-    button.addClass("codeBtnSingle"+i);
-    button.attr("data-code", codeType.code);
-    button.attr("style", "width: 40px; height: 28px");
-    $("#buttonHolder5").append(button);
-
-    function diplayButtonCode(btn) {
-      $(".codeBtnSingle"+btn).on("click", function() {
-        var modCode = $(".codeBtnSingle"+btn).attr("data-code")
-          .replace("x", document.querySelector("#single-input").value);
-        $("#code-appear-here").text($("#code-appear-here").text() + " " + modCode);
-        console.log($(".codeBtnSingle"+btn).attr("data-code"));
-      })
-    }
-    diplayButtonCode(i);
-  }
-}
-
 for (let i = 0; i < singleInputCommands.length; i++) {
-  showOneInputButtons(singleInputCommands);
+  showInputButtons(singleInputCommands, 1, 0);
 }
-
-function showTwoInputButtons(collection) {
-  $("#buttonHolder6r0").empty();
-  $("#buttonHolder6r1").empty();
-  for (let i = 0; i < collection.length; i++) {
-    var codeType = collection[i];
-    var button = $("<button>");
-    button.text(codeType.symbol);
-    button.addClass("codeBtnDouble"+i);
-    button.attr("data-code", codeType.code);
-    button.attr("style", "width: 40px; height: 28px");
-    // Select row to add button to
-    $("#buttonHolder6r0").append(button);
-    // if (i < collection.length / 2)
-    // else $("#buttonHolder6r1").append(button);
-
-    function diplayButtonCode(btn) {
-      $(".codeBtnDouble"+btn).on("click", function() {
-        var modCode = $(".codeBtnDouble"+btn).attr("data-code")
-          .replace("x", document.querySelector("#double-input-x").value)
-          .replace("{y}", "{"+document.querySelector("#double-input-y").value+"}");
-        $("#code-appear-here").text($("#code-appear-here").text() + " " + modCode);
-        console.log($(".codeBtnDouble"+btn).attr("data-code"));
-      })
-    }
-    diplayButtonCode(i);
-  }
+for (let i = 0; i < doubleInputCommands.length; i++) {
+  showInputButtons(doubleInputCommands, 2, 0);
 }
-
-for (var i = 0; i < doubleInputCommands.length; i++) {
-  showTwoInputButtons(doubleInputCommands);
-}
-
-// TODO: condense these three functions into one, with extra parameter(s)?
-
 
 // function 2) display gifs & ajax call
 // My GIPHY API key: uKX1nS2ktlKRylod1a50NtrrJHEyqNZE
