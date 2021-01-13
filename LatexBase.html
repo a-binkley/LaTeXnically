@@ -64,6 +64,12 @@
   <input type="text" id="double-input-x" minlength=1 placeholder="x">
   <input type="text" id="double-input-y" minlength=1 placeholder="y">
 </div>
+<div class="formulas" style="display: inline-block; border-style: solid; padding: 2px;
+    border-radius: 4px; border-width: thin; text-align: center; vertical-align: top">
+  <p>Formulas:</p>
+  <div id="buttonHolder7r0"></div>
+  <div id="buttonHolder7r1"></div>
+</div>
 <br><br>
 
 <form id="code-form">
@@ -74,8 +80,16 @@
   <input id="add-LaTeX" type="submit" value="Translate">
 </form>
 
+<form action="https://www.overleaf.com/docs" method="post" target="_blank">
+  <input type="text" name="snip_uri" value="https://www.overleaf.com/project/">
+  <br>
+  <input type="submit" value="Open in Overleaf">
+</form>
+
 <label for="code-appear-here">LaTeX Code:</label>
   <div id="code-appear-here"></div>
+  <br>
+  <button id="delete">Clear</button>
 
 <script src="LatexScript.js"></script>
 

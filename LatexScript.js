@@ -70,6 +70,15 @@ const doubleInputCommands = [
   new LatexCommand("Subscript", "x_y", "x_(y)", "General/Mathematical", "x_{y}")
 ];
 
+const formulaCommands = [
+  new LatexCommand("Partial Permutations", "Partial Permutations", "n! / (n-r)!", "Set Notation", "\\frac{n!}{(n-r)!}"),
+  new LatexCommand("Partial Combinations", "Partial Combinations", "n! / ((n-r)!*r!)", "Set Notation", "\\frac{n!}{((n-r)!r!)}"),
+  new LatexCommand("Anagram Formula", "Anagram Formula", "(n_1 + n_2 + ... + n_k)! / (n_1! * n_2! * ... * n_k!)", "Set Notation",
+  "\\frac{(n_1 + n_2 + \\dots + n_k)!}{n_1! * n_2! * \\dots * n_k!}"),
+  new LatexCommand("Bayes' Rule", "Bayes' Rule", "Pr[A | B] = (Pr[B | A] * Pr[A])/Pr[B]", "Probability",
+  "Pr[$A \\mid B$] = \\frac{Pr[$B \\mid A$] * Pr[$A$]}{Pr[$B$]}")
+]
+
 const zeroInputCommands = [generalCommands, logicalCommands, setNotationCommands, probabilityCommands, graphTheoryCommands];
 
 // Another list of characters to check against, but these don't need to be displayed
@@ -130,6 +139,10 @@ function showInputButtons(collection, numInputs, setNum) {
       $("#buttonHolder6r0").empty();
       $("#buttonHolder6r1").empty();
       break;
+    case -1:
+      $("#buttonHolder7r0").empty();
+      $("#buttonHolder7r1").empty();
+      break;
   }
   for (let i = 0; i < collection.length; i++) {
     var codeType = collection[i];
@@ -153,6 +166,12 @@ function showInputButtons(collection, numInputs, setNum) {
         break;
       case 2:
         $("#buttonHolder6r0").append(button);
+        break;
+      case -1:
+        button.attr("style", "width: 140px; height: 28px");
+        if (i < collection.length / 2) {
+           $("#buttonHolder7r0").append(button);
+        } else $("#buttonHolder7r1").append(button);
         break;
     }
     // Display the buttons and set event listeners
@@ -187,3 +206,10 @@ for (let i = 0; i < singleInputCommands.length; i++) {
 for (let i = 0; i < doubleInputCommands.length; i++) {
   showInputButtons(doubleInputCommands, 2, 0);
 }
+for (let i = 0; i < formulaCommands.length; i++) {
+  showInputButtons(formulaCommands, -1, 0);
+}
+
+$(document).on("click", "#delete", function () {
+  $("#code-appear-here").empty()
+});
