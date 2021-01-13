@@ -71,7 +71,6 @@ const doubleInputCommands = [
 ];
 
 const zeroInputCommands = [generalCommands, logicalCommands, setNotationCommands, probabilityCommands, graphTheoryCommands];
-const allCommands = [zeroInputCommands, singleInputCommands, doubleInputCommands];
 
 // Another list of characters to check against, but these don't need to be displayed
 // Check against this list BEFORE commandList (so " - " gets captured as subtraction before "-" would be caught as a graph edge)
@@ -117,12 +116,12 @@ function translate(tokens) {
   return latexCode;
 }
 
+// Function that initializes buttons according to category and number of inputs
 function showInputButtons(collection, numInputs, setNum) {
   switch (numInputs) {
     case 0:
       $("#buttonHolder"+setNum+"r0").empty();
       $("#buttonHolder"+setNum+"r1").empty();
-      console.log("Emptied buttonHolder", setNum, "r0&r1");
       break;
     case 1:
       $("#buttonHolder5").empty();
@@ -188,57 +187,3 @@ for (let i = 0; i < singleInputCommands.length; i++) {
 for (let i = 0; i < doubleInputCommands.length; i++) {
   showInputButtons(doubleInputCommands, 2, 0);
 }
-
-// function 2) display gifs & ajax call
-// My GIPHY API key: uKX1nS2ktlKRylod1a50NtrrJHEyqNZE
-
-// function displayGifs(){
-
-//     $(".gifBtn").on("click", function() {
-
-//         $("#code-appear-here").empty();
-//         // Grabbing and storing the data-animal property value from the button
-//         var animal = $(this).attr("data-animal");
-
-//         // Constructing a queryURL using the animal name
-//         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-//           animal + "&api_key=uKX1nS2ktlKRylod1a50NtrrJHEyqNZE&limit=10";
-
-//         // Performing an AJAX request with the queryURL
-//       $.ajax({
-//         url: queryURL,
-//         method: "GET"
-//       })
-//         // After data comes back from the request
-//         .then(function(response) {
-//           console.log(queryURL);
-//           console.log(response);
-//           // storing the data from the AJAX request in the results variable
-//           var results = response.data;
-//           // Looping through each result item
-//           for (var i = 0; i < results.length; i++) {
-//             // Creating a paragraph tag with the result item's rating
-//             var p = $("<p>").text("Rating: " + results[i].rating);
-//             // Setting the src attribute to still image; adding data-state attribute with "still" & "animate" values; add class "gif"
-//             var animalImage = `<img class="gif" data-state="still" src="${results[i].images.fixed_height_still.url}" data-animate="${results[i].images.fixed_height.url}" data-still="${results[i].images.fixed_height_still.url}">`
-//             // append rating and images to HTML
-//             $("#gifs-appear-here").prepend(p);
-//             $("#gifs-appear-here").prepend(animalImage);
-//           }
-//         });
-//     });
-// }
-
-
-//Function 4) Click Event to create new gifBtn & push to topics array
-$("#add-LaTeX").on("click", function(event) {
-  event.preventDefault();
-  // This line grabs the input value
-  var newCode = $("#code-input").val().trim();
-
-  // Adding animal from the textbox to our array
-  topics.push(newCode);
-
-  // Calling showButtons which handles the processing of our topics array
-  showButtons();
-});
