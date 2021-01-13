@@ -1,0 +1,83 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hackathon21 MCIT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+     body{background-image: url("RPSLS.png"); background-position: bottom right; background-repeat: no-repeat}
+     button{margin: 2px;}
+    </style>
+
+</head>
+
+<body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<h1>LaTeXnically</h1>
+<h3>A LaTeX Translator & Reference Tool</h3>
+<!-- Zero-Input Buttons -->
+<div class="buttonGroup0" style="display: inline-block; border-style: solid; padding: 1px; border-radius: 4px; border-width: thin; text-align: center">
+  <p>General:</p>
+  <div id="buttonHolder0r0"></div>
+  <div id="buttonHolder0r1"></div>
+</div>
+<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 1px; border-radius: 4px; border-width: thin; text-align: center">
+  <p>Logical:</p>
+  <div id="buttonHolder1r0"></div>
+  <div id="buttonHolder1r1"></div>
+</div>
+<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 1px; border-radius: 4px; border-width: thin; text-align: center">
+  <p>Set Notation:</p>
+  <div id="buttonHolder2r0"></div>
+  <div id="buttonHolder2r1"></div>
+</div>
+<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 1px;
+    border-radius: 4px; border-width: thin; text-align: center; vertical-align: top">
+  <p>Probability:</p>
+  <div id="buttonHolder3r0"></div>
+</div>
+<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 1px;
+    border-radius: 4px; border-width: thin; text-align: center; vertical-align: top">
+  <p>Graph Theory:</p>
+  <div id="buttonHolder4r0"></div>
+</div>
+<br><br>
+<!-- Single-Input Buttons -->
+<div class="singleInputButtons" style="display: inline-block; border-style: solid; padding: 2px;
+    border-radius: 4px; border-width: thin; text-align: center; vertical-align: top">
+  <p>Single-input:</p>
+  <div id="buttonHolder5"></div>
+  <br>
+  <input type="text" id="single-input" minlength=1 placeholder="x">
+</div>
+<!-- Double-Input Buttons -->
+<div class="doubleInputButtons" style="display: inline-block; border-style: solid; padding: 2px;
+    border-radius: 4px; border-width: thin; text-align: center; vertical-align: top">
+  <p>Double-input:</p>
+  <div id="buttonHolder6r0"></div>
+  <div id="buttonHolder6r1"></div>
+  <br>
+  <input type="text" id="double-input-x" minlength=1 placeholder="x">
+  <input type="text" id="double-input-y" minlength=1 placeholder="y">
+</div>
+<br><br>
+
+<form id="code-form">
+  <label for="code-input">Enter equation below:</label>
+  <br>
+  <input type="text" id="code-input">
+  <!-- Button triggers new LaTeX code to be added -->
+  <input id="add-LaTeX" type="submit" value="Translate">
+</form>
+
+<label for="code-appear-here">LaTeX Code:</label>
+  <div id="code-appear-here"></div>
+
+<script src="LatexScript.js"></script>
+
+</body>
+</html>
