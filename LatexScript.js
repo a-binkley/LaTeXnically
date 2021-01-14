@@ -223,7 +223,10 @@ for (let i = 0; i < formulaCommands.length; i++) {
   showInputButtons(formulaCommands, -1, 0);
 }
 
-// TODO: work on reformatting text input cell, event of Copy to Clipboard button
+$(document).on("click", "#copy-btn", function() {
+  $("#code-appear-here").select();
+  document.execCommand("copy");
+});
 
 $(document).on("click", "#delete", function() {
   $("#code-input").val("");

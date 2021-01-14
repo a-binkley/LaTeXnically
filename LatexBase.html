@@ -75,19 +75,20 @@
 <form id="code-form">
   <label for="code-input">Enter equation below:</label>
   <br>
-  <input type="text" id="code-input"></input>
+  <textarea id="code-input"></textarea>
   <!-- Button triggers new LaTeX code to be added -->
-  <input id="add-LaTeX" type="submit" value="Translate"></input>
+  <input id="add-LaTeX" type="submit" value="Translate" style="vertical-align: top"></input>
 </form>
 
 
 
 <label for="code-appear-here">LaTeX Code:</label>
-  <div id="code-appear-here"></div>
   <br>
-  <a href="https://www.overleaf.com/login"><button>Go to Overleaf</button></a>  
-  <button id="copy">Copy To Clipboard</button>
-  <button id="delete">Clear</button>
+  <textarea id="code-appear-here"></textarea>
+  <button id="copy-btn" style="vertical-align: top">Copy To Clipboard</button>
+  <button id="delete" style="vertical-align: top">Clear</button>
+  <br><br>
+  <a href="https://www.overleaf.com/login"><button>Go to Overleaf</button></a>
 
 
 <script src="LatexScript.js"></script>
