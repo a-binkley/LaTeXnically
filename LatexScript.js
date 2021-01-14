@@ -92,6 +92,15 @@ var regularCharsToTranslate = [
   new LatexCommand(" - ", " - ", " - ", null, "-")
 ];
 
+var regCharsToTranslate = {
+  "{": "\\{",
+  "}": "\\}",
+  "...": "\\dots",
+  " \\ ": "\\setminus",
+  " | ": "\\mid",
+  " - ": "-"
+};
+
 var inputTokens = []; // To be parsed by translator, appended to by input text cell event listener
 
 $("#code-input").on("input", function(event) {
@@ -102,35 +111,53 @@ $("#code-input").on("input", function(event) {
 
 $("#add-LaTeX").on("click", function(event) {
   event.preventDefault();
-  translate(inputTokens); //$("add-LaTeX").text() = ...
+  console.log(translate(inputTokens));
+  $("#code-appear-here").text(translate(inputTokens));
 });
 
 function findMatch(char) {
   return (this.displayText == char) ? this.code : char;
 }
 
+function isAlphaNum(char) {
+  return /^[A-Z0-9 ]$/i.test(char);
+}
+
+// TODO: find out why old (cleared) values are still being added with newer calls to translate()
 // Translates the given string to its LaTeX equivalent
 function translate(tokens) {
   var latexCode = "";
   for (let i = 0; i < tokens.length; i++) {
-    var currentChar = tokens[i];
-    var currentCode = regularCharsToTranslate.forEach(findMatch(currentChar));
-    if (currentCode != null) {
-      latexCode += currentCode;
-      i += 3; //STUB - TODO: switch over to dynamic array of input tokens?
-      continue;
-    }
-    currentCode = commandList.forEach(findMatch(currentChar));
-    if (currentCode != null) {
-      // if the command doesn't require inputs (no parentheses):
-        // latexCode += (corresponding LatexCommand.code);
-        // i+= currentCode.length; ( - 1?)
-      // else:
-        // map inputs to corresponding area(s) in LatexCommand.code
-        // latexCode += (corresponding LatexCommand.code);
-        //
+    var currentTok = tokens[i];
+    if (currentTok.length == 1) {
+      if (isAlphaNum(currentTok)) {
+        latexCode += currentTok;
+        console.log(currentTok);
+      } else {
+        // Check against regularCharsToTranslate and commandList
+        if (currentTok in regCharsToTranslate) {
+          latexCode += regCharsToTranslate[currentTok];
+        }
+      }
     } else {
-      latexCode += currentChar;
+    // // Check if the token is a sum, binomial, or other unusual token
+    //   // if (if currentTok in ) {
+    //   //   latexCode += currentCode;
+    //   //   i += 3; //STUB - TODO: switch over to dynamic array of input tokens?
+    //   //   continue;
+    //   }
+    //   currentCode = commandList.forEach(findMatch(currentChar));
+    //   if (currentCode != null) {
+    //     // if the command doesn't require inputs (no parentheses):
+    //       // latexCode += (corresponding LatexCommand.code);
+    //       // i+= currentCode.length; ( - 1?)
+    //     // else:
+    //       // map inputs to corresponding area(s) in LatexCommand.code
+    //       // latexCode += (corresponding LatexCommand.code);
+    //       //
+      // } else {
+      //   latexCode += currentTok;
+      // }
     }
   }
   return latexCode;
