@@ -92,24 +92,26 @@ function regChar(char, code) {
 var regCharsToTranslate = [
   new regChar("{", "\\{"),
   new regChar("}", "\\}"),
-  new regChar("...", "\\dots"),
-  new regChar(" \\ ", "\\setminus"),
-  new regChar(" | ", "\\mid"),
-  new regChar(" - ", "-")
+  new regChar(" \\ ", "\\setminus")
 ];
 
 var inputTokens = []; // To be parsed by translator, appended to by input text cell event listener
 
+// TODO: fix backspace not removing last token
+
 $("#code-input").on("input", function(event) {
   event.preventDefault();
-  inputTokens.push($("#code-input").val()[$("#code-input").val().length-1]);
+  var lastTok = $("#code-input").val()[$("#code-input").val().length-1];
+  if (lastTok == "\\") inputTokens.push(" \\ ");
+  else inputTokens.push(lastTok);
   console.log(inputTokens[inputTokens.length-1]);
 });
 
 $("#add-LaTeX").on("click", function(event) {
   event.preventDefault();
-  console.log(translate(inputTokens));
-  $("#code-appear-here").text(translate(inputTokens));
+  var newCode = translate(inputTokens);
+  console.log(newCode);
+  $("#code-appear-here").text(newCode);
 });
 
 function findMatch(char) {
@@ -117,28 +119,32 @@ function findMatch(char) {
 }
 
 function isAlphaNum(char) {
+  if (char == "|") return true;
   return /^[A-Z0-9 ]$/i.test(char);
 }
 
-// TODO: find out why old (cleared) values are still being added with newer calls to translate()
 // Translates the given string to its LaTeX equivalent
 function translate(tokens) {
   var latexCode = "";
+  console.log("latexCode: ", latexCode);
   for (let i = 0; i < tokens.length; i++) {
     var currentTok = tokens[i];
+    var foundRegChar = false;
+    for (let j = 0; j < 3; j++) {
+      if (regCharsToTranslate[j].char == currentTok) {
+        console.log("Found regChar: ", currentTok);
+        latexCode += regCharsToTranslate[j].code;
+        foundRegChar = true;
+        break;
+      }
+    }
+    if (foundRegChar) continue;
     if (currentTok.length == 1) {
       if (isAlphaNum(currentTok)) {
         latexCode += currentTok;
         console.log(currentTok);
       } else {
         // Check against regularCharsToTranslate and commandList
-        for (let j = 0; j < regCharsToTranslate.length; j++) {
-          if (regCharsToTranslate[j].char == currentTok) {
-            console.log("Found regChar: ", currentTok);
-            latexCode += regCharsToTranslate[j].code;
-            break;
-          }
-        }
       }
     } else {
     // // Check if the token is a sum, binomial, or other unusual token
@@ -228,9 +234,9 @@ function showInputButtons(collection, numInputs, setNum) {
             break;
         }
         // Update the LaTeX Code dump area text
-        $("#code-appear-here").text($("#code-appear-here").text() + " " + modCode);
+        $("#code-appear-here").text($("#code-appear-here").val() + " " + modCode);
         // Append command to input text cell
-        $("#code-input").val($("#code-input").val() + " " + modCode + " ");
+        $("#code-input").text($("#code-input").val() + " " + modCode + " ");
         console.log($(".codeBtn"+numInputs+setNum+i).attr("data-code"));
       })
     }
@@ -258,6 +264,7 @@ $(document).on("click", "#copy-btn", function() {
 });
 
 $(document).on("click", "#delete", function() {
+  inputTokens = [];
   $("#code-input").val("");
   $("#code-appear-here").empty();
 });
