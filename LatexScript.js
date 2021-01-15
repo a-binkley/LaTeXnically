@@ -64,10 +64,10 @@ const singleInputCommands = [
 ];
 
 const doubleInputCommands = [
-  new LatexCommand("Sum (Sigma)", "IMG", "∑(x)(y)", "General/Mathematical", "\\sum_{x}^{y}"),
-  new LatexCommand("Binomial", "IMG", "(x choose y)", "Counting", "\\binom{x}{y}"),
+  new LatexCommand("Sum (Sigma)", "∑", "∑(x)(y)", "General/Mathematical", "\\sum_{x}^{y}"),
   new LatexCommand("Superscript", "x^y", "x^(y)", "General/Mathematical", "x^{y}"),
-  new LatexCommand("Subscript", "x_y", "x_(y)", "General/Mathematical", "x_{y}")
+  new LatexCommand("Subscript", "x_y", "x_(y)", "General/Mathematical", "x_{y}"),
+  new LatexCommand("Binomial", "(x choose y)", "(x choose y)", "Counting", "\\binom{x}{y}")
 ];
 
 const formulaCommands = [
@@ -83,23 +83,20 @@ const zeroInputCommands = [generalCommands, logicalCommands, setNotationCommands
 
 // Another list of characters to check against, but these don't need to be displayed
 // Check against this list BEFORE commandList (so " - " gets captured as subtraction before "-" would be caught as a graph edge)
-var regularCharsToTranslate = [
-  new LatexCommand("{", "{", "{", null, "\\{"),
-  new LatexCommand("}", "}", "}", null, "\\}"),
-  new LatexCommand("...", "...", "...", null, "\\dots"),
-  new LatexCommand(" \\ ", " \\ ", " \\ ", null, "\\setminus"),
-  new LatexCommand(" | ", " | ", " | ", null, "\\mid"),
-  new LatexCommand(" - ", " - ", " - ", null, "-")
-];
 
-var regCharsToTranslate = {
-  "{": "\\{",
-  "}": "\\}",
-  "...": "\\dots",
-  " \\ ": "\\setminus",
-  " | ": "\\mid",
-  " - ": "-"
-};
+function regChar(char, code) {
+  this.char = char;
+  this.code = code;
+}
+
+var regCharsToTranslate = [
+  new regChar("{", "\\{"),
+  new regChar("}", "\\}"),
+  new regChar("...", "\\dots"),
+  new regChar(" \\ ", "\\setminus"),
+  new regChar(" | ", "\\mid"),
+  new regChar(" - ", "-")
+];
 
 var inputTokens = []; // To be parsed by translator, appended to by input text cell event listener
 
@@ -135,8 +132,12 @@ function translate(tokens) {
         console.log(currentTok);
       } else {
         // Check against regularCharsToTranslate and commandList
-        if (currentTok in regCharsToTranslate) {
-          latexCode += regCharsToTranslate[currentTok];
+        for (let j = 0; j < regCharsToTranslate.length; j++) {
+          if (regCharsToTranslate[j].char == currentTok) {
+            console.log("Found regChar: ", currentTok);
+            latexCode += regCharsToTranslate[j].code;
+            break;
+          }
         }
       }
     } else {
@@ -203,7 +204,12 @@ function showInputButtons(collection, numInputs, setNum) {
         $("#buttonHolder5").append(button);
         break;
       case 2:
-        $("#buttonHolder6r0").append(button);
+        if (i <= collection.length / 2) {
+          $("#buttonHolder6r0").append(button);
+        } else {
+          button.attr("style", "width: 90px; height: 28px");
+          $("#buttonHolder6r1").append(button);
+        }
         break;
       case -1:
         button.attr("style", "width: 140px; height: 28px");
