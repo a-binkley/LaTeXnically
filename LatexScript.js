@@ -166,6 +166,7 @@ function translate() {
   return latexCode.replaceAll(/([^\s])\s[\s]+([^\s])/g, /$1 $2/.source);
 }
 
+
 // Function that initializes buttons according to category and number of inputs
 function showInputButtons(collection, numInputs, setNum) {
   switch (numInputs) {
