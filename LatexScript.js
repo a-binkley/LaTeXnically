@@ -80,9 +80,8 @@ const formulaCommands = [
 ]
 
 const zeroInputCommands = [generalCommands, logicalCommands, setNotationCommands, probabilityCommands, graphTheoryCommands];
-
-// Another list of characters to check against, but these don't need to be displayed
-// Check against this list BEFORE commandList (so " - " gets captured as subtraction before "-" would be caught as a graph edge)
+const allCommands = [generalCommands, logicalCommands, setNotationCommands, probabilityCommands,
+                    graphTheoryCommands, singleInputCommands, doubleInputCommands, formulaCommands];
 
 function regChar(char, code) {
   this.char = char;
@@ -92,21 +91,26 @@ function regChar(char, code) {
 var regCharsToTranslate = [
   new regChar("{", "\\{"),
   new regChar("}", "\\}"),
-  new regChar(" \\ ", "\\setminus")
+  new regChar("\\", "\\setminus")
 ];
 
 var inputTokens = []; // To be parsed by translator, appended to by input text cell event listener
 
-// TODO: fix backspace not removing last token
-
+// Event listener for text input cell
 $("#code-input").on("input", function(event) {
   event.preventDefault();
-  var lastTok = $("#code-input").val()[$("#code-input").val().length-1];
-  if (lastTok == "\\") inputTokens.push(" \\ ");
-  else inputTokens.push(lastTok);
-  console.log(inputTokens[inputTokens.length-1]);
+  var lastTok = event.originalEvent.data;
+  if (event.originalEvent.inputType == "deleteContentBackward") {
+    if (inputTokens[inputTokens.length-1].length == 1) inputTokens.pop();
+    else {
+      inputTokens[inputTokens.length-1] = inputTokens[inputTokens.length-1].slice(0, -1);
+    }
+  }
+  else if (lastTok != null) inputTokens.push(lastTok);
+  console.log(inputTokens);
 });
 
+// Event listener for translate button
 $("#add-LaTeX").on("click", function(event) {
   event.preventDefault();
   var newCode = translate(inputTokens);
@@ -114,12 +118,12 @@ $("#add-LaTeX").on("click", function(event) {
   $("#code-appear-here").text(newCode);
 });
 
-function findMatch(char) {
-  return (this.displayText == char) ? this.code : char;
-}
+// function findMatch(char) {
+//   return (this.displayText == char) ? this.code : char;
+// }
 
 function isAlphaNum(char) {
-  if (char == "|") return true;
+  if (char == "|" || char == "\\") return true;
   return /^[A-Z0-9 ]$/i.test(char);
 }
 
@@ -130,41 +134,36 @@ function translate(tokens) {
   for (let i = 0; i < tokens.length; i++) {
     var currentTok = tokens[i];
     var foundRegChar = false;
-    for (let j = 0; j < 3; j++) {
-      if (regCharsToTranslate[j].char == currentTok) {
+    // Check against regCharsToTranslate ({, }, \)
+    for (let ii = 0; ii < 3; ii++) {
+      if (regCharsToTranslate[ii].char == currentTok) {
         console.log("Found regChar: ", currentTok);
-        latexCode += regCharsToTranslate[j].code;
+        latexCode += regCharsToTranslate[ii].code;
         foundRegChar = true;
         break;
       }
     }
     if (foundRegChar) continue;
-    if (currentTok.length == 1) {
-      if (isAlphaNum(currentTok)) {
-        latexCode += currentTok;
-        console.log(currentTok);
-      } else {
-        // Check against regularCharsToTranslate and commandList
-      }
+    if (isAlphaNum(currentTok)) {
+      latexCode += currentTok;
+      console.log(currentTok);
     } else {
-    // // Check if the token is a sum, binomial, or other unusual token
-    //   // if (if currentTok in ) {
-    //   //   latexCode += currentCode;
-    //   //   i += 3; //STUB - TODO: switch over to dynamic array of input tokens?
-    //   //   continue;
-    //   }
-    //   currentCode = commandList.forEach(findMatch(currentChar));
-    //   if (currentCode != null) {
-    //     // if the command doesn't require inputs (no parentheses):
-    //       // latexCode += (corresponding LatexCommand.code);
-    //       // i+= currentCode.length; ( - 1?)
-    //     // else:
-    //       // map inputs to corresponding area(s) in LatexCommand.code
-    //       // latexCode += (corresponding LatexCommand.code);
-    //       //
-      // } else {
-      //   latexCode += currentTok;
-      // }
+      for (let iii = 0; iii < allCommands.length; iii++) {
+        let foundMatch = false;
+        for (let iv = 0; iv < allCommands[iii].length; iv++) {
+          if (iii > 4) {
+            // Check for x/y inputs and append accordingly
+            // TODO
+          }
+          if (allCommands[iii][iv].displayText == currentTok) {
+            latexCode += allCommands[iii][iv].code;
+            console.log(allCommands[iii][iv].code);
+            foundMatch = true;
+            break;
+          }
+        }
+        if (foundMatch) break;
+      }
     }
   }
   return latexCode;
@@ -195,7 +194,7 @@ function showInputButtons(collection, numInputs, setNum) {
     button.text(codeType.symbol);
     button.addClass("codeBtn"+numInputs+setNum+i);
     if (numInputs != -1) button.attr("title", codeType.title);
-    button.attr("data-code", codeType.code);
+    button.attr("data-code", codeType.displayText);
     button.attr("style", "width: 40px; height: 28px");
     // Style and append the button to the corresponding holder
     switch (numInputs) {
@@ -230,13 +229,12 @@ function showInputButtons(collection, numInputs, setNum) {
             break;
           case 2:
             modCode = modCode.replace("x", document.querySelector("#double-input-x").value)
-              .replace("{y}", "{"+document.querySelector("#double-input-y").value+"}");
+              .replace("(y)", "("+document.querySelector("#double-input-y").value+")");
             break;
         }
-        // Update the LaTeX Code dump area text
-        $("#code-appear-here").text($("#code-appear-here").val() + " " + modCode);
         // Append command to input text cell
-        $("#code-input").text($("#code-input").val() + " " + modCode + " ");
+        $("#code-input").val($("#code-input").val() + modCode);
+        inputTokens.push(modCode);
         console.log($(".codeBtn"+numInputs+setNum+i).attr("data-code"));
       })
     }
