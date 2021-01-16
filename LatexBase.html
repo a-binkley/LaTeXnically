@@ -32,8 +32,8 @@
         <a href="https://www.calnewport.com/blog/2008/11/25/case-study-how-i-got-the-highest-grade-in-my-discrete-math-class/" target="_blank">Gentle Encouragment</a>
       </div>
     </div>
-    
-</header>       
+
+</header>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -95,9 +95,9 @@
 <br><br>
 
 <form id="code-form">
-  <label for="code-input" style="font-family: 'Courier New', Courier, monospace;">Enter equation below:</label>
+  <label for="code-input" style="font-family: 'Courier New', Courier, monospace;">Enter equation below: (Note - put spaces between separate tokens)</label>
   <br>
-  <textarea id="code-input" style="vertical-align: top; height: 50px; width: 300px;"></textarea>
+  <textarea id="code-input" style="vertical-align: top; height: 40px; width: 600px;"></textarea>
   <!-- Button triggers new LaTeX code to be added -->
   <input id="add-LaTeX" type="submit" value="Translate"></input>
 </form>
@@ -105,7 +105,7 @@
 
 <label for="code-appear-here" style="font-family: 'Courier New', Courier, monospace;">LaTeX Code:</label>
   <br>
-  <textarea id="code-appear-here"></textarea>
+  <textarea id="code-appear-here" style="height: 40px; width: 600px;"></textarea>
   <button id="copy-btn" style="vertical-align: top">Copy To Clipboard</button>
   <button id="delete" style="vertical-align: top">Clear</button>
   <br><br>
@@ -113,12 +113,12 @@
 
 
   <script>
-    /* When the user clicks on the button, 
+    /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
     function myFunction() {
       document.getElementById("myDropdown").classList.toggle("show");
     }
-    
+
     // Close the dropdown if the user clicks outside of it
     window.onclick = function(event) {
       if (!event.target.matches('.dropbtn')) {

@@ -60,14 +60,14 @@ const graphTheoryCommands = [
 
 const singleInputCommands = [
   new LatexCommand("Square Root", "√(x)", "√(x)", "General/Mathematical", "\\sqrt{x}"),
-  new LatexCommand("X-bar (Logical Negation)", "x̄", "x̄", "Logical", "\\bar{x}")
+  new LatexCommand("X-bar (Logical Negation)", "x̄", "(x:bar)", "Logical", "\\bar{x}")
 ];
 
 const doubleInputCommands = [
   new LatexCommand("Sum (Sigma)", "∑", "∑(x)(y)", "General/Mathematical", "\\sum_{x}^{y}"),
-  new LatexCommand("Superscript", "x^y", "x^(y)", "General/Mathematical", "x^{y}"),
-  new LatexCommand("Subscript", "x_y", "x_(y)", "General/Mathematical", "x_{y}"),
-  new LatexCommand("Binomial", "(x choose y)", "(x choose y)", "Counting", "\\binom{x}{y}")
+  new LatexCommand("Superscript", "x^y", "(x)^(y)", "General/Mathematical", "x^{y}"),
+  new LatexCommand("Subscript", "x_y", "(x)_(y)", "General/Mathematical", "x_{y}"),
+  new LatexCommand("Binomial", "(x choose y)", "((x):choose:(y))", "Counting", "\\binom{x}{y}")
 ];
 
 const formulaCommands = [
@@ -93,83 +93,77 @@ var regCharsToTranslate = [
   new regChar("}", "\\}")
 ];
 
-// var inputTokens = []; // To be parsed by translator, appended to by input text cell event listener
-
-/*
-// Event listener for text input cell
-$("#code-input").on("input", function(event) {
-  event.preventDefault();
-  // TODO: change this to only add to inputTokens when "translate" is clicked?
-  var lastTok = event.originalEvent.data;
-  if (event.originalEvent.inputType == "deleteContentBackward") {
-    if (inputTokens[inputTokens.length-1].length == 1) inputTokens.pop();
-    else {
-      inputTokens[inputTokens.length-1] = inputTokens[inputTokens.length-1].slice(0, -1);
-    }
-  }
-  else if (lastTok != null) inputTokens.push(lastTok);
-  console.log(inputTokens);
-});
-*/
-
 // Event listener for translate button
 $("#add-LaTeX").on("click", function(event) {
   event.preventDefault();
   var newCode = translate();
-  console.log(newCode);
   $("#code-appear-here").text(newCode);
 });
 
-// function findMatch(char) {
-//   return (this.displayText == char) ? this.code : char;
-// }
-
 function isAlphaNum(char) {
-  if (char == "|") return true;
-  return /^[A-Z0-9 ]$/i.test(char);
+  const extraChars = ["|", "\\", "<", ">", ".", ",", "*", "(", ")", "-", "+", "=", "[", "]", "~"];
+  return /^[A-Z0-9 ]$/i.test(char) || (extraChars.indexOf(char) != -1);
 }
 
 // Translates the given string to its LaTeX equivalent
 function translate() {
   var latexCode = "";
-  const tokenList = $("#code-input").val().split(" ");
+  const tokenList = $("#code-input").val().replaceAll("{", "\\{").replaceAll("}", "\\}").split(" ");
   console.log(tokenList);
   for (let i = 0; i < tokenList.length; i++) {
     var currentTok = tokenList[i];
-    var foundRegChar = false;
-    // Check against regCharsToTranslate ({, }, \)
-    for (let ii = 0; ii < regCharsToTranslate.length; ii++) {
-      if (regCharsToTranslate[ii].char == currentTok) {
-        console.log("Found regChar: ", currentTok);
-        latexCode += regCharsToTranslate[ii].code + " ";
-        foundRegChar = true;
-        break;
-      }
-    }
-    if (foundRegChar) continue;
+    // Check if the token is alphanumeric
     if (isAlphaNum(currentTok)) {
+      if (currentTok == "\\") currentTok = "\\setminus";
       latexCode += currentTok + " ";
     } else {
+      var foundMatch = false;
       for (let iii = 0; iii < allCommands.length; iii++) {
-        let foundMatch = false;
         for (let iv = 0; iv < allCommands[iii].length; iv++) {
           if (iii > 4) {
             // Check for x/y inputs and append accordingly
-            // TODO
+            foundMatch = true;
+            if (currentTok.indexOf(")^(") != -1) {
+              // Superscript token
+              latexCode += currentTok.replace(/\(([^)]*)\)\^\(([^)]*)\)/, /$1^{$2}/.source) + " ";
+            } else if (currentTok.indexOf(")_(") != -1) {
+              // Subscript token
+              latexCode += currentTok.replace(/\(([^)]*)\)_\(([^)]*)\)/, /$1_{$2}/.source) + " ";
+            } else if (currentTok.indexOf("∑") != -1) {
+              // Summation token
+              latexCode += currentTok.replace(/∑\(([^)]*)\)\(([^)]*)\)/, /\sum_{$1}^{$2}/.source) + " ";
+            } else if (currentTok.indexOf("):choose:(") != -1) {
+              // Binomial token
+              latexCode += currentTok.replace(/\(\(([^)]*)\):choose:\(([^)]*)\)\)/, /\\binom{$1}{$2}/.source) + " ";
+            } else if (currentTok.indexOf("√(") != -1) {
+              // Square root token
+              latexCode += currentTok.replace(/√\(([^)]*)\)/, /\sqrt{$1}/.source) + " ";
+            } else if (currentTok.indexOf(":bar)") != -1) {
+              // Bar token
+              latexCode += currentTok.replace(/\(([^)]*):bar\)/, /\\bar{$1}/.source) + " ";
+            } else foundMatch = false;
+            if (foundMatch) break;
           }
-          if (allCommands[iii][iv].displayText == currentTok) {
-            // TODO: fix inputs like 𝜒(G)
-            latexCode += currentTok.replace(allCommands[iii][iv].displayText, allCommands[iii][iv].code) + " ";
-            console.log(allCommands[iii][iv].code);
+          var nestedSymbol = currentTok.indexOf(allCommands[iii][iv].displayText);
+          if (nestedSymbol != -1) {
+            if (nestedSymbol == 0) {
+              tokenList[i] = currentTok.replaceAll(allCommands[iii][iv].displayText, allCommands[iii][iv].code + " ");
+            } else if (nestedSymbol == currentTok.length-1) {
+              tokenList[i] = currentTok.replaceAll(allCommands[iii][iv].displayText, " " + allCommands[iii][iv].code);
+            } else {
+              tokenList[i] = currentTok.replaceAll(allCommands[iii][iv].displayText, " " + allCommands[iii][iv].code + " ");
+            }
+            i--;
             foundMatch = true;
             break;
           }
         }
         if (foundMatch) break;
       }
+      if (currentTok != "" && !foundMatch) latexCode += currentTok + " ";
     }
   }
-  return latexCode;
+  return latexCode.replaceAll(/([^\s])\s[\s]+([^\s])/g, /$1 $2/.source);
 }
 
 // Function that initializes buttons according to category and number of inputs
@@ -237,8 +231,6 @@ function showInputButtons(collection, numInputs, setNum) {
         }
         // Append command to input text cell
         $("#code-input").val($("#code-input").val() + modCode);
-        // inputTokens.push(modCode);
-        console.log($(".codeBtn"+numInputs+setNum+i).attr("data-code"));
       })
     }
     diplayButtonCode(numInputs, setNum, i);
@@ -265,7 +257,6 @@ $(document).on("click", "#copy-btn", function() {
 });
 
 $(document).on("click", "#delete", function() {
-  // inputTokens = [];
   $("#code-input").val("");
   $("#code-appear-here").empty();
 });
