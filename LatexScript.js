@@ -90,15 +90,16 @@ function regChar(char, code) {
 
 var regCharsToTranslate = [
   new regChar("{", "\\{"),
-  new regChar("}", "\\}"),
-  new regChar("\\", "\\setminus")
+  new regChar("}", "\\}")
 ];
 
-var inputTokens = []; // To be parsed by translator, appended to by input text cell event listener
+// var inputTokens = []; // To be parsed by translator, appended to by input text cell event listener
 
+/*
 // Event listener for text input cell
 $("#code-input").on("input", function(event) {
   event.preventDefault();
+  // TODO: change this to only add to inputTokens when "translate" is clicked?
   var lastTok = event.originalEvent.data;
   if (event.originalEvent.inputType == "deleteContentBackward") {
     if (inputTokens[inputTokens.length-1].length == 1) inputTokens.pop();
@@ -109,11 +110,12 @@ $("#code-input").on("input", function(event) {
   else if (lastTok != null) inputTokens.push(lastTok);
   console.log(inputTokens);
 });
+*/
 
 // Event listener for translate button
 $("#add-LaTeX").on("click", function(event) {
   event.preventDefault();
-  var newCode = translate(inputTokens);
+  var newCode = translate();
   console.log(newCode);
   $("#code-appear-here").text(newCode);
 });
@@ -123,30 +125,30 @@ $("#add-LaTeX").on("click", function(event) {
 // }
 
 function isAlphaNum(char) {
-  if (char == "|" || char == "\\") return true;
+  if (char == "|") return true;
   return /^[A-Z0-9 ]$/i.test(char);
 }
 
 // Translates the given string to its LaTeX equivalent
-function translate(tokens) {
+function translate() {
   var latexCode = "";
-  console.log("latexCode: ", latexCode);
-  for (let i = 0; i < tokens.length; i++) {
-    var currentTok = tokens[i];
+  const tokenList = $("#code-input").val().split(" ");
+  console.log(tokenList);
+  for (let i = 0; i < tokenList.length; i++) {
+    var currentTok = tokenList[i];
     var foundRegChar = false;
     // Check against regCharsToTranslate ({, }, \)
-    for (let ii = 0; ii < 3; ii++) {
+    for (let ii = 0; ii < regCharsToTranslate.length; ii++) {
       if (regCharsToTranslate[ii].char == currentTok) {
         console.log("Found regChar: ", currentTok);
-        latexCode += regCharsToTranslate[ii].code;
+        latexCode += regCharsToTranslate[ii].code + " ";
         foundRegChar = true;
         break;
       }
     }
     if (foundRegChar) continue;
     if (isAlphaNum(currentTok)) {
-      latexCode += currentTok;
-      console.log(currentTok);
+      latexCode += currentTok + " ";
     } else {
       for (let iii = 0; iii < allCommands.length; iii++) {
         let foundMatch = false;
@@ -156,7 +158,8 @@ function translate(tokens) {
             // TODO
           }
           if (allCommands[iii][iv].displayText == currentTok) {
-            latexCode += allCommands[iii][iv].code;
+            // TODO: fix inputs like 𝜒(G)
+            latexCode += currentTok.replace(allCommands[iii][iv].displayText, allCommands[iii][iv].code) + " ";
             console.log(allCommands[iii][iv].code);
             foundMatch = true;
             break;
@@ -234,7 +237,7 @@ function showInputButtons(collection, numInputs, setNum) {
         }
         // Append command to input text cell
         $("#code-input").val($("#code-input").val() + modCode);
-        inputTokens.push(modCode);
+        // inputTokens.push(modCode);
         console.log($(".codeBtn"+numInputs+setNum+i).attr("data-code"));
       })
     }
@@ -262,7 +265,7 @@ $(document).on("click", "#copy-btn", function() {
 });
 
 $(document).on("click", "#delete", function() {
-  inputTokens = [];
+  // inputTokens = [];
   $("#code-input").val("");
   $("#code-appear-here").empty();
 });
