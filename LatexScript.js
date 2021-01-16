@@ -112,20 +112,21 @@ $("#code-input").on("input", function(event) {
 });
 */
 
-// Event listener for translate button
 $("#add-LaTeX").on("click", function(event) {
   event.preventDefault();
-  var newCode = translate();
+  var newCode = translate();//$("#code-input").val()
+  //translate(newCode);
   console.log(newCode);
   $("#code-appear-here").text(newCode);
 });
+
 
 // function findMatch(char) {
 //   return (this.displayText == char) ? this.code : char;
 // }
 
 function isAlphaNum(char) {
-  if (char == "|") return true;
+  if (char == "|" || char == "\\") return true;
   return /^[A-Z0-9 ]$/i.test(char);
 }
 
@@ -148,6 +149,7 @@ function translate() {
     }
     if (foundRegChar) continue;
     if (isAlphaNum(currentTok)) {
+    if (currentTok == "\\") currentTok = "\\setminus";
       latexCode += currentTok + " ";
     } else {
       for (let iii = 0; iii < allCommands.length; iii++) {
@@ -171,6 +173,8 @@ function translate() {
   }
   return latexCode;
 }
+
+
 
 // Function that initializes buttons according to category and number of inputs
 function showInputButtons(collection, numInputs, setNum) {
