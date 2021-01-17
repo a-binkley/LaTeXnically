@@ -11,10 +11,11 @@ const generalCommands = [
   new LatexCommand("Not Equal", "≠", "≠", "General/Mathematical", "\\neq"),
   new LatexCommand("Less Than or Equal To", "≤", "≤", "General/Mathematical", "\\leq"),
   new LatexCommand("Greater Than or Equal To", "≥", "≥", "General/Mathematical", "\\geq"),
+  new LatexCommand("Sum (Sigma)", "∑", "∑", "General/Mathematical", "\\sum"),
   new LatexCommand("Alpha", "α", "α", "General/Mathematical", "\\alpha"),
   new LatexCommand("Beta", "β", "β", "General/Mathematical", "\\beta"),
   new LatexCommand("Delta", "Δ", "Δ", "General/Mathematical", "\\Delta"),
-  new LatexCommand("Sum (Sigma)", "∑", "∑", "General/Mathematical", "\\sum"),
+  new LatexCommand("Pi", "π", "π", "General/Mathematical", "\\pi")
 ];
 
 const logicalCommands = [
