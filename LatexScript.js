@@ -137,13 +137,13 @@ function translate() {
               latexCode += currentTok.replace(/∑\(([^)]*)\)\(([^)]*)\)/, /\sum_{$1}^{$2}/.source) + " ";
             } else if (currentTok.indexOf("):choose:(") != -1) {
               // Binomial token
-              latexCode += currentTok.replace(/\(\(([^)]*)\):choose:\(([^)]*)\)\)/, /\\binom{$1}{$2}/.source) + " ";
+              latexCode += currentTok.replace(/\(\(([^)]*)\):choose:\(([^)]*)\)\)/, /\binom{$1}{$2}/.source) + " ";
             } else if (currentTok.indexOf("√(") != -1) {
               // Square root token
               latexCode += currentTok.replace(/√\(([^)]*)\)/, /\sqrt{$1}/.source) + " ";
             } else if (currentTok.indexOf(":bar)") != -1) {
               // Bar token
-              latexCode += currentTok.replace(/\(([^)]*):bar\)/, /\\bar{$1}/.source) + " ";
+              latexCode += currentTok.replace(/\(([^)]*):bar\)/, /\bar{$1}/.source) + " ";
             } else if (currentTok.indexOf(")/(") != -1) {
               // Fraction token
               latexCode += currentTok.replace(/\(([^)]*)\)\/\(([^)]*)\)/, /\frac{$1}{$2}/.source) + " ";
