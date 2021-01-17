@@ -10,7 +10,7 @@ Spending hours trying to draw the perfect symbol in Detexify? Banging your head 
 
 Clicking the buttons sends the literal character to the text input area. Hover for button description.
 
-### LaTeX Translater
+### LaTeX Translator
 
 Takes in literal characters from keyboard and buttons
 
