@@ -6,30 +6,25 @@ Spending hours trying to draw the perfect symbol in Detexify? Banging your head 
 
 ## Features
 
-### Button References
+### Click-to-Add Symbols
 
-Clicking the buttons sends the literal character to the text input area. Hover for button description.
+Clicking the buttons sends the corresponding literal character(s) to the text input area. Hover for button description.
 
 ### LaTeX Translator
 
-Takes in literal characters from keyboard and buttons
+Takes in literal characters from keyboard and buttons and outputs characters in LaTeX code
 
 ```
 Input: 
-```
 `{∀x ∈ ℤ | x ≤ |x|}`
 
-
-Translate button will output characters in LaTeX code
-
-```
 Output: 
-```
 `\{ \forall x \in \mathbb{Z} | x \leq |x|\} `
+```
 
 ### Copy to Clipboard
 
-Copy the translation to paste in a convenient link to your Overleaf account or wherever desired.
+Copy the translation to be pasted in a convenient link to your Overleaf account or wherever desired.
 
 
 Created by Adrian Binkley and Lily Simmons
