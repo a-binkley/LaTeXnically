@@ -1,3 +1,7 @@
+body{background-image: url("RPSLS.png"); background-position: bottom right; background-repeat: no-repeat}
+
+button{margin: 2px;}
+
 header{
     background-color: #ffffff;
     border-bottom: 2px solid #cccccc;
@@ -8,14 +12,12 @@ header{
 
 
 
-/* Dropdown Button */
+/* Dropdown Button style https://www.w3schools.com/howto/howto_js_dropdown.asp */
 .dropbtn {
     background-color: #a1e0e0;
     color: black;
     padding: 16px;
     font-size: 16px;
-    /* border: thin;
-    border-color: black; */
     cursor: pointer;
     margin-top: 10px;
 
@@ -59,12 +61,7 @@ header{
   .show {display:block;}
 
 h1{
-    /* color: #ffffff; */
-    /* background-color: #4aaaa5; */
     font-family: 'Courier New', Courier, monospace;
-    /* width: 250px; */
-    /* text-align: center; */
-    /* padding: 10px; */
     float: left;
 }
 
@@ -78,11 +75,6 @@ p{font-family: 'Courier New', Courier, monospace; font-weight: 500;}
     float: right;}
 
 
-
-/* a{
-    color: #777777;
-    text-decoration-line: none;
-} */
 
 footer{
     /* background: #666666; */

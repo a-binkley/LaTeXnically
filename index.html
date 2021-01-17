@@ -8,11 +8,7 @@
     <link rel="stylesheet" type="text/css" href="LatexStyle.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
     integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <style>
-     body{background-image: url("RPSLS.png"); background-position: bottom right; background-repeat: no-repeat}
-     button{margin: 2px;}
-    </style>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -34,9 +30,6 @@
     </div>
 
 </header>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 
 <h3>A LaTeX Translator & Reference Tool</h3>
 <h5>Hover for button description</h5>
@@ -95,24 +88,25 @@
 <br><br>
 
 <form id="code-form">
-  <label for="code-input" style="font-family: 'Courier New', Courier, monospace;">Enter equation below: (Note - put spaces between separate tokens)</label>
+  <label for="code-input" style="font-family: 'Courier New', Courier, monospace;">Enter equation below:</label>
   <br>
-  <textarea id="code-input" style="vertical-align: top; height: 40px; width: 600px;"></textarea>
-  <!-- Button triggers new LaTeX code to be added -->
+  <textarea id="code-input" style="vertical-align: top; height: 50px; width: 400px;"></textarea>
+  <!-- Button triggers Latex code translation -->
   <input id="add-LaTeX" type="submit" value="Translate"></input>
 </form>
 
 
 <label for="code-appear-here" style="font-family: 'Courier New', Courier, monospace;">LaTeX Code:</label>
   <br>
-  <textarea id="code-appear-here" style="height: 40px; width: 600px;"></textarea>
+  <textarea id="code-appear-here" style="height: 50px; width: 400px;"></textarea>
   <button id="copy-btn" style="vertical-align: top">Copy To Clipboard</button>
   <button id="delete" style="vertical-align: top">Clear</button>
   <br><br>
   <a href="https://www.overleaf.com/login"><button>Go to Overleaf</button></a>
 
-
+  <!-- dropdown button code script from https://www.w3schools.com/howto/howto_js_dropdown.asp -->
   <script>
+    
     /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
     function myFunction() {
