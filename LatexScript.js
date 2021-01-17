@@ -13,7 +13,8 @@ const generalCommands = [
   new LatexCommand("Greater Than or Equal To", "≥", "≥", "General/Mathematical", "\\geq"),
   new LatexCommand("Alpha", "α", "α", "General/Mathematical", "\\alpha"),
   new LatexCommand("Beta", "β", "β", "General/Mathematical", "\\beta"),
-  new LatexCommand("Delta", "Δ", "Δ", "General/Mathematical", "\\Delta")
+  new LatexCommand("Delta", "Δ", "Δ", "General/Mathematical", "\\Delta"),
+  new LatexCommand("Sum (Sigma)", "∑", "∑", "General/Mathematical", "\\sum"),
 ];
 
 const logicalCommands = [
