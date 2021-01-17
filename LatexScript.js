@@ -67,7 +67,8 @@ const doubleInputCommands = [
   new LatexCommand("Sum (Sigma)", "∑", "∑(x)(y)", "General/Mathematical", "\\sum_{x}^{y}"),
   new LatexCommand("Superscript", "x^y", "(x)^(y)", "General/Mathematical", "x^{y}"),
   new LatexCommand("Subscript", "x_y", "(x)_(y)", "General/Mathematical", "x_{y}"),
-  new LatexCommand("Binomial", "(x choose y)", "((x):choose:(y))", "Counting", "\\binom{x}{y}")
+  new LatexCommand("Binomial", "(x choose y)", "((x):choose:(y))", "Counting", "\\binom{x}{y}"),
+  new LatexCommand("Fraction", "x/y", "(x)/(y)", "General/Mathematical", "\\frac{x}{y}"),
 ];
 
 const formulaCommands = [
@@ -141,7 +142,11 @@ function translate() {
             } else if (currentTok.indexOf(":bar)") != -1) {
               // Bar token
               latexCode += currentTok.replace(/\(([^)]*):bar\)/, /\\bar{$1}/.source) + " ";
-            } else foundMatch = false;
+            } else if (currentTok.indexOf(")/(") != -1) {
+              // Fraction token
+              latexCode += currentTok.replace(/\(([^)]*)\)\/\(([^)]*)\)/, /\frac{$1}{$2}/.source) + " ";
+            }
+            else foundMatch = false;
             if (foundMatch) break;
           }
           var nestedSymbol = currentTok.indexOf(allCommands[iii][iv].displayText);
