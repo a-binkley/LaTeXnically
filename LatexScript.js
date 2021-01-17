@@ -11,7 +11,7 @@ const generalCommands = [
   new LatexCommand("Not Equal", "≠", "≠", "General/Mathematical", "\\neq"),
   new LatexCommand("Less Than or Equal To", "≤", "≤", "General/Mathematical", "\\leq"),
   new LatexCommand("Greater Than or Equal To", "≥", "≥", "General/Mathematical", "\\geq"),
-  new LatexCommand("Sum (Sigma)", "∑", "∑", "General/Mathematical", "\\sum"),
+  new LatexCommand("Sum (Sigma)", "∑", "(∑)", "General/Mathematical", "\\sum"),
   new LatexCommand("Alpha", "α", "α", "General/Mathematical", "\\alpha"),
   new LatexCommand("Beta", "β", "β", "General/Mathematical", "\\beta"),
   new LatexCommand("Delta", "Δ", "Δ", "General/Mathematical", "\\Delta"),
@@ -56,7 +56,7 @@ const probabilityCommands = [
 
 const graphTheoryCommands = [
   new LatexCommand("Chi (Colorability)", "𝜒", "𝜒", "Graph Theory", "\\chi"),
-  new LatexCommand("Bi-Directional Edge", "-", "-", "Graph Theory", "\\edg"),
+  new LatexCommand("Bi-Directional Edge", "—", "—", "Graph Theory", "\\edg"),
   new LatexCommand("Directed Edge", "→", "→", "Graph Theory", "\\dedg")
 ];
 
@@ -167,7 +167,7 @@ function translate() {
         }
         if (foundMatch) break;
       }
-      if (currentTok != "" && !foundMatch) latexCode += currentTok + " ";
+      if ((currentTok != "" && !foundMatch) || currentTok.length > 10) latexCode += currentTok + " ";
     }
   }
   return latexCode.replaceAll(/([^\s])\s[\s]+([^\s])/g, /$1 $2/.source);
@@ -234,11 +234,11 @@ function showInputButtons(collection, numInputs, setNum) {
             break;
           case 2:
             modCode = modCode.replace("x", document.querySelector("#double-input-x").value)
-              .replace("(y)", "("+document.querySelector("#double-input-y").value+")");
+              .replace("(y)", "("+document.querySelector("#double-input-y").value+")").replaceAll(" ", "");
             break;
         }
         // Append command to input text cell
-        $("#code-input").val($("#code-input").val() + modCode);
+        $("#code-input").val($("#code-input").val() + modCode + " ");
       })
     }
     diplayButtonCode(numInputs, setNum, i);
