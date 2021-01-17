@@ -213,7 +213,7 @@ function showInputButtons(collection, numInputs, setNum) {
         $("#buttonHolder5").append(button);
         break;
       case 2:
-        if (i == 3) button.attr("style", "width: 90px; height: 28px");
+        if (i == 3) button.attr("style", "width: 94px; height: 28px");
         $("#buttonHolder6r0").append(button);
         break;
       case -1:

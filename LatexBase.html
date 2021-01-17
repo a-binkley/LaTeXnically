@@ -8,7 +8,11 @@
     <link rel="stylesheet" type="text/css" href="LatexStyle.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
     integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+     body{background-image: url("RPSLS.png"); background-position: bottom right; background-repeat: no-repeat}
+     button{margin: 2px;}
+    </style>
+
 </head>
 
 <body>
@@ -31,40 +35,40 @@
 
 </header>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
 <h3>A LaTeX Translator & Reference Tool</h3>
 <h5>Hover for button description</h5>
 <!-- Zero-Input Buttons -->
-<div class="buttonGroup0" style="display: inline-block; border-style: solid; padding: 1px; height: 107px;
-    border-radius: 4px; border-width: thin; text-align: center; background-color:rgb(249, 250, 209);">
+<div class="buttonGroup0" style="display: inline-block; border-style: solid; padding: 1px; border-radius: 4px; border-width: thin; text-align: center; background-color:rgb(249, 250, 209);">
   <p>General:</p>
   <div id="buttonHolder0r0"></div>
   <div id="buttonHolder0r1"></div>
 </div>
-<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 1px; height: 107px;
-    border-radius: 4px; border-width: thin; text-align: center; background-color:rgb(250, 226, 202);">
+<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 1px; border-radius: 4px; border-width: thin; text-align: center; background-color:rgb(250, 226, 202);">
   <p>Logical:</p>
   <div id="buttonHolder1r0"></div>
   <div id="buttonHolder1r1"></div>
 </div>
-<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 1px; height: 107px;
-    border-radius: 4px; border-width: thin; text-align: center; background-color:rgb(223, 252, 243);">
+<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 1px; border-radius: 4px; border-width: thin; text-align: center; background-color:rgb(223, 252, 243);">
   <p>Set Notation:</p>
   <div id="buttonHolder2r0"></div>
   <div id="buttonHolder2r1"></div>
 </div>
-<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 2px; height: 105px;
+<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 2px;
     border-radius: 4px; border-width: thin; text-align: center; vertical-align: top; background-color:rgb(240, 219, 253);">
   <p>Probability:</p>
   <div id="buttonHolder3r0"></div>
 </div>
-<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 2px; height: 105px;
+<div class="buttonGroup1" style="display: inline-block; border-style: solid; padding: 2px;
     border-radius: 4px; border-width: thin; text-align: center; vertical-align: top; background-color:rgb(214, 230, 250);">
   <p>Graph Theory:</p>
   <div id="buttonHolder4r0"></div>
 </div>
 <br><br>
 <!-- Single-Input Buttons -->
-<div class="singleInputButtons" style="display: inline-block; border-style: solid; padding: 2px; height: 123px;
+<div class="singleInputButtons" style="display: inline-block; border-style: solid; padding: 2px;
     border-radius: 4px; border-width: thin; text-align: center; vertical-align: top; background-color:rgb(250, 220, 216);">
   <p>Single-input:</p>
   <div id="buttonHolder5"></div>
@@ -72,7 +76,7 @@
   <input type="text" id="single-input" minlength=1 placeholder="x">
 </div>
 <!-- Double-Input Buttons -->
-<div class="doubleInputButtons" style="display: inline-block; border-style: solid; padding: 2px; height: 123px;
+<div class="doubleInputButtons" style="display: inline-block; border-style: solid; padding: 2px;
     border-radius: 4px; border-width: thin; text-align: center; vertical-align: top; background-color:rgb(222, 248, 219);">
   <p>Double-input:</p>
   <div id="buttonHolder6r0"></div>
@@ -82,7 +86,7 @@
   <input type="text" id="double-input-y" minlength=1 placeholder="y">
 </div>
 
-<div class="formulas" style="display: inline-block; border-style: solid; padding: 2px; height: 123px;
+<div class="formulas" style="display: inline-block; border-style: solid; padding: 2px;
     border-radius: 4px; border-width: thin; text-align: center; vertical-align: top; background-color:rgb(248, 220, 233);">
   <p>Formulas:</p>
   <div id="buttonHolder7r0"></div>
@@ -91,25 +95,24 @@
 <br><br>
 
 <form id="code-form">
-  <label for="code-input" style="font-family: 'Courier New', Courier, monospace;">Enter equation below:</label>
+  <label for="code-input" style="font-family: 'Courier New', Courier, monospace;">Enter equation below: (Note - put spaces between separate tokens)</label>
   <br>
-  <textarea id="code-input" style="vertical-align: top; height: 50px; width: 400px;"></textarea>
-  <!-- Button triggers Latex code translation -->
+  <textarea id="code-input" style="vertical-align: top; height: 40px; width: 600px;"></textarea>
+  <!-- Button triggers new LaTeX code to be added -->
   <input id="add-LaTeX" type="submit" value="Translate"></input>
 </form>
 
 
 <label for="code-appear-here" style="font-family: 'Courier New', Courier, monospace;">LaTeX Code:</label>
   <br>
-  <textarea id="code-appear-here" style="height: 50px; width: 400px;"></textarea>
+  <textarea id="code-appear-here" style="height: 40px; width: 600px;"></textarea>
   <button id="copy-btn" style="vertical-align: top">Copy To Clipboard</button>
   <button id="delete" style="vertical-align: top">Clear</button>
-  <br>
+  <br><br>
   <a href="https://www.overleaf.com/login"><button>Go to Overleaf</button></a>
 
-  <!-- dropdown button code script from https://www.w3schools.com/howto/howto_js_dropdown.asp -->
-  <script>
 
+  <script>
     /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
     function myFunction() {
