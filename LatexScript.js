@@ -147,8 +147,7 @@ function translate() {
             } else if (currentTok.indexOf(")/(") != -1) {
               // Fraction token
               latexCode += currentTok.replace(/\(([^)]*)\)\/\(([^)]*)\)/, /\frac{$1}{$2}/.source) + " ";
-            }
-            else foundMatch = false;
+            } else foundMatch = false;
             if (foundMatch) break;
           }
           var nestedSymbol = currentTok.indexOf(allCommands[iii][iv].displayText);
@@ -167,7 +166,7 @@ function translate() {
         }
         if (foundMatch) break;
       }
-      if ((currentTok != "" && !foundMatch) || currentTok.length > 10) latexCode += currentTok + " ";
+      if (currentTok != "" && !foundMatch) latexCode += currentTok + " ";
     }
   }
   return latexCode.replaceAll(/([^\s])\s[\s]+([^\s])/g, /$1 $2/.source);
