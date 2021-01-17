@@ -132,7 +132,7 @@ function translate() {
             } else if (currentTok.indexOf(")_(") != -1) {
               // Subscript token
               latexCode += currentTok.replace(/\(([^)]*)\)_\(([^)]*)\)/, /$1_{$2}/.source) + " ";
-            } else if (currentTok.indexOf("∑") != -1) {
+            } else if (currentTok.indexOf("∑(") != -1) {
               // Summation token
               latexCode += currentTok.replace(/∑\(([^)]*)\)\(([^)]*)\)/, /\sum_{$1}^{$2}/.source) + " ";
             } else if (currentTok.indexOf("):choose:(") != -1) {
