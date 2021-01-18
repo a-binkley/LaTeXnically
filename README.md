@@ -30,7 +30,10 @@ Copy the translation to be pasted in a convenient link to your Overleaf account 
 
 https://youtu.be/n4zx-ZBpL5k
 
-Try LaTeXnically live here: https://a-binkley.github.io/LaTeXnically/
+
+### Try it
+
+Live site: https://a-binkley.github.io/LaTeXnically/
 
 
 Created by Adrian Binkley and Lily Simmons
