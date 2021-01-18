@@ -24,7 +24,7 @@ Output:
 
 ### Copy to Clipboard
 
-Copy the translation to be pasted in a convenient link to your Overleaf account or wherever desired.
+Copy the translation and paste in a convenient link to your Overleaf account or wherever desired.
 
 ### Demonstration Video
 
