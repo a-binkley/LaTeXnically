@@ -26,5 +26,8 @@ Output:
 
 Copy the translation to be pasted in a convenient link to your Overleaf account or wherever desired.
 
+### Demonstration Video
+
+https://youtu.be/n4zx-ZBpL5k
 
 Created by Adrian Binkley and Lily Simmons
