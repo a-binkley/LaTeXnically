@@ -15,7 +15,8 @@ const generalCommands = [
   new LatexCommand("Alpha", "α", "α", "General/Mathematical", "\\alpha"),
   new LatexCommand("Beta", "β", "β", "General/Mathematical", "\\beta"),
   new LatexCommand("Delta", "Δ", "Δ", "General/Mathematical", "\\Delta"),
-  new LatexCommand("Pi", "π", "π", "General/Mathematical", "\\pi")
+  new LatexCommand("Pi", "π", "π", "General/Mathematical", "\\pi"),
+  new LatexCommand("Theta", "Θ", "(Θ)", "General/Mathematical", "\\Theta")
 ];
 
 const logicalCommands = [
@@ -71,6 +72,7 @@ const doubleInputCommands = [
   new LatexCommand("Subscript", "x_y", "(x)_(y)", "General/Mathematical", "x_{y}"),
   new LatexCommand("Binomial", "(x choose y)", "((x):choose:(y))", "Counting", "\\binom{x}{y}"),
   new LatexCommand("Fraction", "x/y", "(x)/(y)", "General/Mathematical", "\\frac{x}{y}"),
+  new LatexCommand("Logarithm", "x log y", "((x):log:(y))", "General/Mathematical", "\\log")
 ];
 
 const formulaCommands = [
@@ -147,7 +149,11 @@ function translate() {
             } else if (currentTok.indexOf(")/(") != -1) {
               // Fraction token
               latexCode += currentTok.replace(/\(([^)]*)\)\/\(([^)]*)\)/, /\frac{$1}{$2}/.source) + " ";
-            } else foundMatch = false;
+            } else if (currentTok.indexOf("):log:(") != -1) {
+              //Log token
+              latexCode += currentTok.replace(/\(\(([^)]*)\):log:\(([^)]*)\)\)/, /$1\log $2/.source) + " ";
+            }
+            else foundMatch = false;
             if (foundMatch) break;
           }
           var nestedSymbol = currentTok.indexOf(allCommands[iii][iv].displayText);
@@ -214,6 +220,7 @@ function showInputButtons(collection, numInputs, setNum) {
         break;
       case 2:
         if (i == 3) button.attr("style", "width: 94px; height: 28px");
+        if (i == 5) button.attr("style", "width: 60px; height: 28px");
         $("#buttonHolder6r0").append(button);
         break;
       case -1:
