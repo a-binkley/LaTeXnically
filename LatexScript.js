@@ -72,7 +72,7 @@ const doubleInputCommands = [
   new LatexCommand("Subscript", "x_y", "(x)_(y)", "General/Mathematical", "x_{y}"),
   new LatexCommand("Binomial", "(x choose y)", "((x):choose:(y))", "Counting", "\\binom{x}{y}"),
   new LatexCommand("Fraction", "x/y", "(x)/(y)", "General/Mathematical", "\\frac{x}{y}"),
-  new LatexCommand("Logarithm", "log base x of y", "((x):log:(y))", "General/Mathematical", "\\log_{x}(y)")
+  new LatexCommand("Logarithm", "log base x of y", "(log_(x):(y))", "General/Mathematical", "\\log_{x}(y)")
 ];
 
 const formulaCommands = [
@@ -149,9 +149,9 @@ function translate() {
             } else if (currentTok.indexOf(")/(") != -1) {
               // Fraction token
               latexCode += currentTok.replace(/\(([^)]*)\)\/\(([^)]*)\)/, /\frac{$1}{$2}/.source) + " ";
-            } else if (currentTok.indexOf("):log:(") != -1) {
+            } else if (currentTok.indexOf("log_(") != -1) {
               //Log token
-              latexCode += currentTok.replace(/\(\(([^)]*)\):log:\(([^)]*)\)\)/, /\log_{$1}($2)/.source) + " ";
+              latexCode += currentTok.replace(/\(log_\(([^)]*)\):\(([^)]*)\)\)/, /\log_{$1}($2)/.source) + " ";
             }
             else foundMatch = false;
             if (foundMatch) break;
@@ -220,11 +220,7 @@ function showInputButtons(collection, numInputs, setNum) {
         break;
       case 2:
         if (i == 3) button.attr("style", "width: 94px; height: 28px");
-<<<<<<< HEAD
-        if (i == 5) button.attr("style", "width: 60px; height: 28px");
-=======
         if (i == 5) button.attr("style", "width: 108px; height: 28px");
->>>>>>> 9a1fe644133408f20180f3b97d191e3bc71563d1
         $("#buttonHolder6r0").append(button);
         break;
       case -1:
